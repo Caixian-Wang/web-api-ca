@@ -50,4 +50,52 @@ router.get('/tmdb/genres', asyncHandler(async (req, res) => {
     res.status(200).json(genres);
 }));
 
+router.get('/:id/reviews', asyncHandler(async (req, res) => {
+    const movieId = parseInt(req.params.id);
+    const reviews = await reviewModel.find({ movieId });
+  
+    if (reviews && reviews.length > 0) {
+      res.status(200).json({
+        movieId,
+        total_reviews: reviews.length,
+        reviews
+      });
+    } else {
+      res.status(404).json({
+        message: `No reviews found for movie with id ${movieId}.`,
+        status_code: 404
+      });
+    }
+  }));
+
+  router.post('/:id/reviews', asyncHandler(async (req, res) => {
+    const movieId = parseInt(req.params.id);
+    const { author, content, rating } = req.body;
+
+    if (!author || !content || rating === undefined) {
+      return res.status(400).json({
+        message: 'Author, content, and rating are required.'
+      });
+    }
+
+  const movie = await movieModel.findByMovieDBId(movieId);
+  if (!movie) {
+    return res.status(404).json({
+      message: `Movie with id ${movieId} does not exist in the database.`
+    });
+  }
+
+  const newReview = new reviewModel({
+    movieId,
+    author,
+    content,
+    rating
+  });
+
+  await newReview.save();
+  res.status(201).json({
+    message: 'Review added successfully.',
+    review: newReview
+  });
+}));
 export default router;
