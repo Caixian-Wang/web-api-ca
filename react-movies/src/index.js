@@ -17,6 +17,7 @@ import PopularMoivesPage from "./pages/popularMoviesPage";
 import MovieRecommendationPage from "./pages/movieRecommendationPage";
 import MovieSimilarPage from "./pages/movieSimilarPage";
 import CreditInfPage from "./pages/creditInfPage";
+import LocalHomePage from "./pages/localHomePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,7 +38,8 @@ const App = () => {
           <Routes>
             <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/movies/localupcoming" element={<LocalUpcomingMoviesPage />} />
+            <Route path="/localmovies/upcoming" element={<LocalUpcomingMoviesPage />} />
+            <Route path="/localmovies" element={<LocalHomePage />} />
             <Route path="/movies/trending" element={<TrendingMoviesPage />} />
             <Route path="/movies/popular" element={<PopularMoivesPage />} />
             <Route path="/reviews/:id" element={ <MovieReviewPage/> } /> 
