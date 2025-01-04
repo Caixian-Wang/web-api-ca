@@ -18,6 +18,10 @@ import MovieRecommendationPage from "./pages/movieRecommendationPage";
 import MovieSimilarPage from "./pages/movieSimilarPage";
 import CreditInfPage from "./pages/creditInfPage";
 import LocalHomePage from "./pages/localHomePage";
+import Header from "./components/loginSiteHeader";
+import AuthContextProvider from "./contexts/authContext";
+import ProtectedRoutes from "./protectedRoutes";
+import LoginPage from "./pages/loginPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,26 +37,33 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <SiteHeader />
-        <MoviesContextProvider>
-          <Routes>
-            <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/localmovies/upcoming" element={<LocalUpcomingMoviesPage />} />
-            <Route path="/localmovies" element={<LocalHomePage />} />
-            <Route path="/movies/trending" element={<TrendingMoviesPage />} />
-            <Route path="/movies/popular" element={<PopularMoivesPage />} />
-            <Route path="/reviews/:id" element={ <MovieReviewPage/> } /> 
-            <Route path="/movies/:id" element={<MoviePage />} />
-            <Route path="/reviews/form" element={ <AddMovieReviewPage /> } /> 
-            <Route path="/movies/:id/recommendations" element={<MovieRecommendationPage />} /> 
-            <Route path="/movies/:id/similars" element={<MovieSimilarPage />} /> 
-            <Route path="/credits/:id/creditInf" element={<CreditInfPage />} /> 
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={ <Navigate to="/" /> } />
-           
-          </Routes>
-        </MoviesContextProvider>
+        <AuthContextProvider>
+        <Header />
+          <SiteHeader />
+          <MoviesContextProvider>
+            <Routes>
+             
+              <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+              <Route path="/localmovies/upcoming" element={<LocalUpcomingMoviesPage />} />
+              <Route path="/localmovies" element={<LocalHomePage />} />
+              <Route path="/movies/trending" element={<TrendingMoviesPage />} />
+              <Route path="/movies/popular" element={<PopularMoivesPage />} />
+              <Route path="/reviews/:id" element={ <MovieReviewPage/> } /> 
+              <Route path="/movies/:id" element={<MoviePage />} />
+              <Route path="/reviews/form" element={ <AddMovieReviewPage /> } /> 
+              <Route path="/movies/:id/recommendations" element={<MovieRecommendationPage />} /> 
+              <Route path="/movies/:id/similars" element={<MovieSimilarPage />} /> 
+              <Route path="/credits/:id/creditInf" element={<CreditInfPage />} /> 
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<ProtectedRoutes />}>
+              <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+              
+              </Route>
+              <Route path="/" element={<HomePage />} />
+              <Route path="*" element={ <Navigate to="/" /> } />
+            </Routes>
+          </MoviesContextProvider>
+        </AuthContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
