@@ -1,5 +1,6 @@
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
+import reviewModel from '../reviews/reviewModel';
 import express from 'express';
 import {
     getUpcomingMovies,
