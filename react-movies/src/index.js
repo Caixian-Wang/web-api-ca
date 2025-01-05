@@ -44,6 +44,7 @@ const App = () => {
           <SiteHeader />
           <MoviesContextProvider>
             <Routes>
+              <Route path="/" element={<HomePage />} />
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/localmovies/upcoming" element={<LocalUpcomingMoviesPage />} />
               <Route path="/localmovies" element={<LocalHomePage />} />
@@ -61,7 +62,7 @@ const App = () => {
               <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               </Route>
-              <Route path="/" element={<HomePage />} />
+              
               <Route path="*" element={ <Navigate to="/" /> } />
             </Routes>
           </MoviesContextProvider>

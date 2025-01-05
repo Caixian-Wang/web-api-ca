@@ -27,7 +27,6 @@ const SiteHeader = ({ history }) => {
 
   const menuOptions = isAuthenticated 
   ?[
-    { label: "Home", path: "/" },
     { label: "Favorites", path: "/movies/favorites" },
     { label: "Upcoming Movies", path: "/movies/upcoming" },
     { label: "Trending Movies", path: "/movies/trending" },
@@ -37,7 +36,6 @@ const SiteHeader = ({ history }) => {
   ]
   :[
     { label: "Home", path: "/" },
-    { label: "Favorites", path: "/movies/favorites" },
     { label: "Upcoming Movies", path: "/movies/upcoming" },
     { label: "Trending Movies", path: "/movies/trending" },
     { label: "Popular Movies", path: "/movies/popular" },
