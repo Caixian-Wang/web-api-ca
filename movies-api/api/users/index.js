@@ -62,4 +62,20 @@ async function authenticateUser(req, res) {
     }
 }
 
+router.get('/:username', asyncHandler(async (req, res) => {
+    const { username } = req.params;
+    const user = await User.findOne({ username })
+        .populate('favoriteMovies')
+        .populate('commentedMovies');
+    if (!user) {
+        return res.status(404).json({ success: false, msg: 'The user does not exist' });
+    }
+    res.status(200).json({
+        success: true,
+        data: {
+            favoriteMovies: user.favoriteMovies,
+            commentedMovies: user.commentedMovies,
+        },
+    });
+}));
 export default router;
