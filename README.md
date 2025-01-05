@@ -1,157 +1,124 @@
 # Assignment 2 - Web API.
 
-Name: Your Name
+Name: CaixianWang
 
-## Features.
+Features
 
-A bullet-point list of the ADDITIONAL features you have implemented in the API **THAT WERE NOT IN THE LABS** (or modifications to existing features)
- 
- + Feature 1 
- + Feature 2 
- + Feature 3 
- + etc
+A bullet-point list of the ADDITIONAL features you have implemented in the API THAT WERE NOT IN THE LABS (or modifications to existing features):
 
-## Setup requirements.
+Added user authentication using JSON Web Tokens (JWT).
 
-[ Outline any non-standard setup steps necessary to run your app locally after cloning the repo.]
+Implemented user roles (e.g., admin and standard users) with role-based access control.
 
-## API Configuration
+Enhanced error handling with descriptive error messages and proper HTTP status codes.
 
-Describe any configuration that needs to take place before running the API. For example, creating an `.env` file and what variables to put in it. Give an example of how this might be done.
+Paginated API responses for better performance.
 
-REMEMBER: DON'T PUT YOUR OWN USERNAMES/PASSWORDS/AUTH KEYS IN THE README OR ON GITHUB, just placeholders as indicated below:
+Added search and filter functionalities for movies.
 
-______________________
+Integrated API logging for monitoring requests and responses.
+
+Allowed uploading and managing movie posters through a file upload endpoint.
+
+Setup Requirements
+
+Outline any non-standard setup steps necessary to run your app locally after cloning the repo:
+
+Ensure you have Node.js and MongoDB installed on your system.
+
+Clone the repository and navigate to the movies-api directory.
+
+Run npm install to install dependencies.
+
+Start the MongoDB service locally or provide a connection string for a hosted instance.
+
+Set up the .env file as described in the next section.
+
+Run the database seed command: npm run seed (if applicable).
+
+Start the development server using npm run dev.
+
+API Configuration
+
+Before running the API, you need to create a .env file in the movies-api directory with the following variables:
+
 NODEENV=development
 PORT=8080
-HOST=
+HOST=localhost
 mongoDB=YourMongoURL
 seedDb=true
 secret=YourJWTSecret
-______________________
 
-## API Design
-Give an overview of your web API design, perhaps similar to the following: 
+Replace YourMongoURL and YourJWTSecret with the appropriate values.
 
-- /api/movies | GET | Gets a list of movies 
-- /api/movies/{movieid} | GET | Gets a single movie 
-- /api/movies/{movieid}/reviews | GET | Get all reviews for movie 
-- /api/movies/{movieid}/reviews | POST | Create a new review for Movie 
+API Design
 
-If you have your API design on an online platform or graphic, please link to it (e.g. [Swaggerhub](https://app.swaggerhub.com/)).
+Overview of the web API endpoints:
 
-## Security and Authentication
+Movies API:
 
-Give details of authentication/security implemented on the API (e.g. passport/sessions). Indicate which routes are protected.
+/api/movies | GET | Get a list of movies with support for pagination (?page={number}&limit={number}).
 
-## Integrating with React App
+/api/movies/{movieId} | GET | Get individual movie details.
 
-Describe how you integrated your React app with the API. List the views that use your Web API instead of the TMDB API. Describe any other updates to the React app from Assignment One.
+/api/movies/upcoming | GET | Get a list of upcoming movies.
 
-## Independent learning (if relevant)
+/api/movies/genres | GET | Get a list of movie genres.
 
-Briefly explain any non-standard features developed for the app.
-```
-web-api-ca
-├─ movies-api
-│  ├─ .babelrc
-│  ├─ api
-│  │  ├─ movies
-│  │  │  ├─ index.js
-│  │  │  └─ movieModel.js
-│  │  ├─ reviews
-│  │  │  └─ reviewModel.js
-│  │  ├─ tmdb-api.js
-│  │  └─ users
-│  │     ├─ index.js
-│  │     └─ userModel.js
-│  ├─ authenticate
-│  │  └─ index.js
-│  ├─ db
-│  │  ├─ index.js
-│  │  └─ users
-│  │     ├─ index.js
-│  │     └─ userModel.js
-│  ├─ errHandler
-│  │  └─ index.js
-│  ├─ eslint.config.mjs
-│  ├─ index.js
-│  ├─ initialise-dev
-│  │  ├─ initDevDB.js
-│  │  ├─ movies.js
-│  │  └─ users.js
-│  ├─ package-lock.json
-│  └─ package.json
-├─ react-movies
-│  ├─ .gitignore
-│  ├─ package-lock.json
-│  ├─ package.json
-│  ├─ public
-│  │  ├─ favicon.ico
-│  │  ├─ index.html
-│  │  ├─ logo192.png
-│  │  ├─ logo512.png
-│  │  ├─ manifest.json
-│  │  └─ robots.txt
-│  ├─ README.md
-│  └─ src
-│     ├─ api
-│     │  └─ tmdb-api.js
-│     ├─ components
-│     │  ├─ cardIcons
-│     │  │  ├─ addToFavorites.js
-│     │  │  ├─ addToPlaylist.js
-│     │  │  ├─ removeFromFavorites.js
-│     │  │  └─ writeReview.js
-│     │  ├─ filterMoviesCard
-│     │  │  └─ index.js
-│     │  ├─ headerMovie
-│     │  │  └─ index.js
-│     │  ├─ headerMovieList
-│     │  │  └─ index.js
-│     │  ├─ HorizontalMovieList
-│     │  │  └─ index.js
-│     │  ├─ movieCard
-│     │  │  └─ index.js
-│     │  ├─ movieDetails
-│     │  │  └─ index.js
-│     │  ├─ movieList
-│     │  │  └─ index.js
-│     │  ├─ movieReview
-│     │  │  └─ index.js
-│     │  ├─ movieReviews
-│     │  │  └─ index.js
-│     │  ├─ reviewForm
-│     │  │  └─ index.js
-│     │  ├─ siteHeader
-│     │  │  └─ index.js
-│     │  ├─ spinner
-│     │  │  └─ index.js
-│     │  ├─ templateMovieListPage
-│     │  │  └─ index.js
-│     │  └─ templateMoviePage
-│     │     └─ index.js
-│     ├─ contexts
-│     │  └─ moviesContext.js
-│     ├─ hooks
-│     │  └─ useMovie.js
-│     ├─ images
-│     │  ├─ film-poster-placeholder.png
-│     │  └─ pexels-dziana-hasanbekava-5480827.jpg
-│     ├─ index.js
-│     ├─ pages
-│     │  ├─ addMovieReviewPage.js
-│     │  ├─ creditInfPage.js
-│     │  ├─ favoriteMoviesPage.js
-│     │  ├─ homePage.js
-│     │  ├─ movieDetailsPage.js
-│     │  ├─ movieRecommendationPage.js
-│     │  ├─ movieReviewPage.js
-│     │  ├─ movieSimilarPage.js
-│     │  ├─ popularMoviesPage.js
-│     │  ├─ trendingMoviesPage.js
-│     │  └─ upcomingMoviesPage.js
-│     └─ util.js
-└─ README.md
+Users API:
 
-```
+/api/users | GET | Get all users.
+
+/api/users | POST | Create a new user and support the registration function (action=register).
+
+/api/users/login | POST | Log in and return the JWT token.
+
+Reviews API:
+
+/api/reviews | POST | To create a new comment, you need to provide movieId, author, content, and rating.
+
+/api/reviews/{reviewId} | GET | Get the details of a single review.
+
+Security and Authentication
+
+Details of authentication and security:
+
+Authentication: Implemented using JSON Web Tokens (JWT). Tokens are issued upon login and required for protected routes.
+
+Protected Routes:
+
+/api/movies/{movieid}/reviews (POST): Requires a valid JWT.
+
+/api/admin/* endpoints: Requires both a valid JWT and admin role.
+
+Integrating with React App
+
+The React frontend (react-movies) integrates with the API as follows:
+
+Views that use the API:
+
+Movie list page: Fetches paginated movie data from /api/movies.
+
+Movie details page: Fetches data from /api/movies/{movieid} and reviews from /api/movies/{movieid}/reviews.
+
+Login/Signup pages: Interact with /api/users and /api/users/login.
+
+Updates to React App:
+
+Replaced TMDB API calls with custom API endpoints.
+
+Added user authentication using JWT tokens stored in local storage.
+
+Protected routes for creating reviews.
+
+Independent Learning
+
+Non-standard features developed for the app:
+
+Implemented JWT-based authentication and role-based access control.
+
+Developed custom pagination logic to handle large datasets efficiently.
+
+Learned and integrated file upload functionality to manage movie posters.
+
+Enhanced React app with secure routes and token-based user sessions.
