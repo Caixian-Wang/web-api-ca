@@ -8,9 +8,22 @@ const LoginPage = props => {
 
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(""); 
 
-    const login = () => {
-        context.authenticate(userName, password);
+    const login = async () => {
+        try {
+            const result = await context.authenticate(userName, password); 
+            if (result.success) {
+                localStorage.setItem("token", result.token);
+                localStorage.setItem("username", userName);
+
+                setError("");
+            } else {
+                setError(result.msg || "Failed to log in, please try again later");
+            }
+        } catch (e) {
+            setError("Can't log in, please check the network or try again later");
+        }
     };
 
     let location = useLocation();
@@ -24,18 +37,27 @@ const LoginPage = props => {
 
     return (
         <>
-            <h2>Login page</h2>
-            <p>You must log in to view the protected pages </p>
-            <input id="username" placeholder="user name" onChange={e => {
-                setUserName(e.target.value);
-            }}></input><br />
-            <input id="password" type="password" placeholder="password" onChange={e => {
-                setPassword(e.target.value);
-            }}></input><br />
-            {/* Login web form  */}
-            <button onClick={login}>Log in</button>
-            <p>Not Registered?
-                <Link to="/signup">Sign Up!</Link></p>
+            <h2>Login</h2>
+            <p>You must be logged in to view protected pages</p>
+            {error && <p style={{ color: "red" }}>{error}</p>} {/* New: Show error message */}
+            <input
+                id="username"
+                placeholder="username"
+                value={userName}
+                onChange={e => setUserName(e.target.value)}
+            /><br />
+            <input
+                id="password"
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+            /><br />
+            {/* Login */}
+            <button onClick={login}>Login</button>
+            <p>Not yet SignUp?
+                <Link to="/signup">SignUp ！</Link>
+            </p>
         </>
     );
 };

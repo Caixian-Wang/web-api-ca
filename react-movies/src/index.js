@@ -23,6 +23,7 @@ import AuthContextProvider from "./contexts/authContext";
 import ProtectedRoutes from "./protectedRoutes";
 import LoginPage from "./pages/loginPage";
 import SignUpPage from "./pages/signUpPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,7 +44,6 @@ const App = () => {
           <SiteHeader />
           <MoviesContextProvider>
             <Routes>
-             
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/localmovies/upcoming" element={<LocalUpcomingMoviesPage />} />
               <Route path="/localmovies" element={<LocalHomePage />} />
@@ -59,6 +59,7 @@ const App = () => {
               <Route path="/signup" element={ <SignUpPage /> } />
               <Route element={<ProtectedRoutes />}>
               <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
               </Route>
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={ <Navigate to="/" /> } />
