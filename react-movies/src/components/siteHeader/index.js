@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,10 +11,12 @@ import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { AuthContext } from "../../contexts/authContext";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = ({ history }) => {
+  const { isAuthenticated,  signout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -23,17 +25,32 @@ const SiteHeader = ({ history }) => {
   
   const navigate = useNavigate();
 
-  const menuOptions = [
+  const menuOptions = isAuthenticated 
+  ?[
     { label: "Home", path: "/" },
     { label: "Favorites", path: "/movies/favorites" },
     { label: "Upcoming Movies", path: "/movies/upcoming" },
     { label: "Trending Movies", path: "/movies/trending" },
     { label: "Popular Movies", path: "/movies/popular" },
-    { label: "Login", path: "/login"},
-    { label: "SignUp", path: "/signup"},
+    { label: "My Profile", path: "/profile" }, 
+    { label: "Logout", path: "/" }, 
+  ]
+  :[
+    { label: "Home", path: "/" },
+    { label: "Favorites", path: "/movies/favorites" },
+    { label: "Upcoming Movies", path: "/movies/upcoming" },
+    { label: "Trending Movies", path: "/movies/trending" },
+    { label: "Popular Movies", path: "/movies/popular" },
+    { label: "Login", path: "/login" },
+    { label: "SignUp", path: "/signup" },
   ];
 
   const handleMenuSelect = (pageURL) => {
+    if (pageURL === "/") {
+      if (isAuthenticated) {
+        signout(); 
+      }
+    }
     navigate(pageURL, { replace: true });
   };
 
