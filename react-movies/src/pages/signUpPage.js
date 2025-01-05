@@ -11,8 +11,7 @@ const SignUpPage = props => {
   const [error, setError] = useState(""); 
 
   const register = async () => {
-    setError(""); 
-    let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
     const validPassword = passwordRegEx.test(password);
 
     if (!userName) {
@@ -21,7 +20,7 @@ const SignUpPage = props => {
     }
 
     if (!validPassword) {
-      setError("The password must contain at least 8 characters, including letters, numbers, and special characters");
+      setError("The password must contain at least 6 characters, including letters, numbers, and special characters");
       return;
     }
 

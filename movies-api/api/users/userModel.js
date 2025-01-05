@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   username: { type: String, unique: true, required: true},
-  password: {type: String, required: true, match: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/},
+  password: {type: String, required: true, match: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/},
   favoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }], 
   commentedMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }], 
 });
