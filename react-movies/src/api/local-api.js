@@ -29,7 +29,7 @@ export const getLocalMovies = async () => {
   export const login = async (username, password) => {
     const response = await fetch('http://localhost:8080/api/users', {
       headers: {
-        'Authorization': window.localStorage.getItem('token')
+        'Content-Type': 'application/json',
       },
         method: 'post',
         body: JSON.stringify({ username: username, password: password })
