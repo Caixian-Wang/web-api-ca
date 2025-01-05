@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addReview, deleteReviewById, getReviewsByAuthor } from "../api/local-api"; 
+import '../styles.css';
 
 const ProfilePage = () => {
     const [userData, setUserData] = useState(null);
@@ -8,7 +9,6 @@ const ProfilePage = () => {
     const [authorReviews, setAuthorReviews] = useState([]);
     const navigate = useNavigate();
 
-    // 独立的 fetchAuthorReviews 函数
     const fetchAuthorReviews = async (author) => {
         try {
             const reviews = await getReviewsByAuthor(author);
@@ -37,7 +37,7 @@ const ProfilePage = () => {
                 const result = await response.json();
                 if (result.success) {
                     setUserData(result.data);
-                    fetchAuthorReviews(username); // 在这里调用 fetchAuthorReviews
+                    fetchAuthorReviews(username);
                 } else {
                     navigate("/login");
                 }
@@ -51,7 +51,7 @@ const ProfilePage = () => {
     }, [navigate]);
 
     const handleAddReview = async () => {
-        const username = localStorage.getItem("username"); // 从本地存储中获取登录的用户名
+        const username = localStorage.getItem("username");
         if (!username) {
             alert("You must be logged in to add a review.");
             navigate("/login");
@@ -60,14 +60,14 @@ const ProfilePage = () => {
 
         const reviewData = {
             ...newReview,
-            author: username, // 添加作者字段
+            author: username,
         };
 
         try {
             await addReview(reviewData);
             alert("Review added successfully");
             setNewReview({ movieId: "", content: "", rating: 0 });
-            fetchAuthorReviews(username); // 更新用户的评论列表
+            fetchAuthorReviews(username);
         } catch (error) {
             alert("Failed to add review: " + error.message);
         }
@@ -84,43 +84,36 @@ const ProfilePage = () => {
     };
 
     if (!userData) {
-        return <div>Loading...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     return (
-        <div>
-            <h2>Personal interface</h2>
-            <h3>Favorite movies</h3>
-            {userData.favoriteMovies.length > 0 ? (
-                <ul>
-                    {userData.favoriteMovies.map(movie => (
-                        <li key={movie._id}>{movie.title}</li>
-                    ))}
-                </ul>
-            ) : (
-                <p>There are no favorites</p>
-            )}
-            <h3>Reviewed films</h3>
+        <div className="container">
+            <h2 className="title">Personal Interface</h2>
+            <h3 className="subtitle">Reviewed Films</h3>
             {authorReviews.length > 0 ? (
-                <ul>
+                <ul className="review-list">
                     {authorReviews.map(review => (
-                        <li key={review._id}>
-                            Movie ID: {review.movieId}, Rating: {review.rating}, Content: {review.content}
-                            <button onClick={() => handleDeleteReview(review._id)}>Delete</button>
+                        <li key={review._id} className="review-item">
+                            <p><strong>Movie ID:</strong> {review.movieId}</p>
+                            <p><strong>Rating:</strong> {review.rating}</p>
+                            <p><strong>Content:</strong> {review.content}</p>
+                            <button onClick={() => handleDeleteReview(review._id)} className="delete-button">Delete</button>
                         </li>
                     ))}
                 </ul>
             ) : (
                 <p>There are no reviews for the movie yet</p>
             )}
-            <h3>Add a Review</h3>
-            <form onSubmit={(e) => { e.preventDefault(); handleAddReview(); }}>
+            <h3 className="subtitle">Add a Review</h3>
+            <form onSubmit={(e) => { e.preventDefault(); handleAddReview(); }} className="form">
                 <label>
                     Movie ID:
                     <input
                         type="text"
                         value={newReview.movieId}
                         onChange={(e) => setNewReview({ ...newReview, movieId: e.target.value })}
+                        className="input"
                     />
                 </label>
                 <label>
@@ -128,6 +121,7 @@ const ProfilePage = () => {
                     <textarea
                         value={newReview.content}
                         onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
+                        className="textarea"
                     />
                 </label>
                 <label>
@@ -138,9 +132,10 @@ const ProfilePage = () => {
                         max="10"
                         value={newReview.rating}
                         onChange={(e) => setNewReview({ ...newReview, rating: +e.target.value })}
+                        className="input"
                     />
                 </label>
-                <button type="submit">Add Review</button>
+                <button type="submit" className="submit-button">Add Review</button>
             </form>
         </div>
     );
