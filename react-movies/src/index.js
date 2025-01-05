@@ -22,6 +22,7 @@ import Header from "./components/loginSiteHeader";
 import AuthContextProvider from "./contexts/authContext";
 import ProtectedRoutes from "./protectedRoutes";
 import LoginPage from "./pages/loginPage";
+import SignUpPage from "./pages/signUpPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,9 +56,9 @@ const App = () => {
               <Route path="/movies/:id/similars" element={<MovieSimilarPage />} /> 
               <Route path="/credits/:id/creditInf" element={<CreditInfPage />} /> 
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={ <SignUpPage /> } />
               <Route element={<ProtectedRoutes />}>
               <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-              
               </Route>
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={ <Navigate to="/" /> } />
