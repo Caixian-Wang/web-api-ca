@@ -78,4 +78,32 @@ router.get('/:username', asyncHandler(async (req, res) => {
         },
     });
 }));
+
+// Get user profile
+router.get('/profile', asyncHandler(async (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.id)
+            .populate('favoriteMovies', 'title')
+            .populate('commentedMovies', 'title');
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({
+            username: user.username,
+            email: user.email,
+            favoriteMovies: user.favoriteMovies,
+            commentedMovies: user.commentedMovies,
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching profile', error });
+    }
+}));
 export default router;
