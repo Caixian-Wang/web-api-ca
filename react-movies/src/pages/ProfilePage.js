@@ -16,24 +16,19 @@ const ProfilePage = () => {
             }
 
             try {
-                const userResponse = await fetch("/api/user/profile", {
+                const userResponse = await fetch("/api/users/profile", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
+
+                if (!userResponse.ok) {
+                    throw new Error("Failed to fetch user profile");
+                }
+
                 const userData = await userResponse.json();
 
-                const commentsResponse = await fetch("/api/user/comments", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                const commentsData = await commentsResponse.json();
-
-                const favoritesResponse = await fetch("/api/user/favorites", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                const favoritesData = await favoritesResponse.json();
-
                 setUserData(userData);
-                setUserComments(commentsData);
-                setUserFavorites(favoritesData);
+                setUserComments(userData.commentedMovies || []);
+                setUserFavorites(userData.favoriteMovies || []);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -48,7 +43,7 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-page">
-            <h1>{userData.name}'s Profile</h1>
+            <h1>{userData.username}'s Profile</h1>
             <div className="user-info">
                 <p><strong>Email:</strong> {userData.email}</p>
                 <p><strong>Username:</strong> {userData.username}</p>
@@ -61,8 +56,8 @@ const ProfilePage = () => {
                 ) : (
                     <ul>
                         {userComments.map((comment) => (
-                            <li key={comment.id}>
-                                <strong>{comment.movieTitle}:</strong> {comment.content}
+                            <li key={comment._id}>
+                                <strong>{comment.title}:</strong> {comment.content}
                             </li>
                         ))}
                     </ul>
@@ -76,7 +71,7 @@ const ProfilePage = () => {
                 ) : (
                     <ul>
                         {userFavorites.map((movie) => (
-                            <li key={movie.id}>{movie.title}</li>
+                            <li key={movie._id}>{movie.title}</li>
                         ))}
                     </ul>
                 )}
@@ -86,3 +81,4 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
