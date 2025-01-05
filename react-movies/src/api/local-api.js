@@ -45,5 +45,11 @@ export const signup = async (username, password) => {
         method: 'post',
         body: JSON.stringify({ username: username, password: password })
     });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.msg || "SignUp failed.");
+    }
+
     return response.json();
 };
